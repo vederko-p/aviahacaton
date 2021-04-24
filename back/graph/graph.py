@@ -3,9 +3,9 @@ import pandas as pd
 import numpy as np
 
 
-vertex = pd.read_csv('b_1f_edges_coords_px.csv', header=None)
+vertex = pd.read_csv('b_2f_edges_coords_px.csv', header=None)
 vertex.columns = ['x', 'y']
-links = pd.read_csv('b_1f_links.csv', header=None)
+links = pd.read_csv('b_2f_links.csv', header=None)
 links.columns = ['i', 'j']
 
 
@@ -36,4 +36,4 @@ def adjacent_list(vertex_list, edges_list):
     return adj_vertexes
 
 
-# print(adjacent_list(vv, lv)[42])
+# print(adjacent_list(vv, lv)[27])
