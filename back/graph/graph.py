@@ -36,4 +36,4 @@ def adjacent_list(vertex_list, edges_list):
     return adj_vertexes
 
 
-print(adjacent_list(vv, lv)[42])
+# print(adjacent_list(vv, lv)[42])

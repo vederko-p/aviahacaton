@@ -57,4 +57,4 @@ def path(start,end,graph):
 # пример
 start = 0
 end = 43
-print(path(start,end,graph_connected))
+# print(path(start,end,graph_connected))
