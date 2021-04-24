@@ -9,6 +9,9 @@ from kivy.uix.actionbar import ActionDropDown
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen, WipeTransition
 from kivy.core.window import Window
+from kivy.uix.image import Image
+from kivy.uix.treeview import TreeView
+
 from functions import *
 
 from functools import partial
@@ -133,10 +136,22 @@ class MapScreen(BaseScreen):
         #self.dropdown.bind(on_select=lambda instance, x: setattr(self.search, 'text', x))
         self.add_widget(self.search)
 
-        #Тестовая кнопочка для перехода между страницами
-        btn = Button(pos=(100,100), size_hint=(None, None), size=(100,100), text='1')
-        btn.bind(on_press=self.change)
-        self.add_widget(btn)
+        # Карта
+        self.airport = Image(source='airport.png',
+                        size_hint=(1*4, 0.7*4),
+                        pos_hint={'center_x': .5, 'center_y': .45})
+        self.add_widget(self.airport, 5)
+
+        #Кнопка приближения
+        self.plus_button = Button(text="+", size_hint=(None,None), size=(80,80),
+                                  pos=(Window.size[0] - 90,Window.size[1]*0.2+90))
+        self.plus_button.bind(on_release=self.big_map)
+        self.add_widget(self.plus_button)
+        #Кнопка отдаления
+        self.minus_button = Button(text="-", size_hint=(None,None), size=(80,80),
+                                   pos=(Window.size[0] - 90,Window.size[1]*0.2))
+        self.minus_button.bind(on_release=self.small_map)
+        self.add_widget(self.minus_button)
 
     def change(self, event):
         global mapp
@@ -156,7 +171,14 @@ class MapScreen(BaseScreen):
 
         self.dropdown.open(struct)
 
-
+    def big_map(self, event):
+        new_size = (self.airport.size_hint[0]*1.1, self.airport.size_hint[1]*1.1)
+        self.airport.size_hint = new_size
+        print(self.airport.size_hint)
+    def small_map(self, event):
+        new_size = (self.airport.size_hint[0] * 0.9, self.airport.size_hint[1] * 0.9)
+        self.airport.size_hint = new_size
+        print(self.airport.size_hint)
 
 class AddScreen(BaseScreen):
     def __init__(self, *args, **kwargs):
