@@ -7,7 +7,7 @@ from kivy.uix.scrollview import ScrollView
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen, WipeTransition
 from kivy.core.window import Window
-
+from functions import *
 
 from functools import partial
 
@@ -35,7 +35,7 @@ class FlightScreen(BaseScreen):
         Важно правильно(удобно) обрабатывать куда.
         Надо указывать обозначение из 3-х букв аэропорта, наверное.
         """
-        self.rasp_list = [('1','13:00', 'A', 'Санкт-Петербург')]
+        self.rasp_list = [('1','13:00', 'A', 'Санкт-Петербург'),('2','14:00', 'B', 'Санкт-Петербург')]
         self.button_list = list()
 
         # Заголовок
@@ -49,12 +49,13 @@ class FlightScreen(BaseScreen):
         self.scrlV = ScrollView(do_scroll_x=False,
                                 do_scroll_y=True,
                                 size_hint=(1, .8),
-                                pos_hint={'center_x': .5, 'center_y': .40})
+                                pos_hint={'center_x': .5, 'center_y': .5})
         self.add_widget(self.scrlV)
+
+        # Рисуем отделяющую линию
 
         #Заполнение ScrollView
         self.fillScrView()
-
 
 
     def fillScrView(self):
@@ -63,6 +64,7 @@ class FlightScreen(BaseScreen):
         # Сетка осуществляющая возможность добавления элементов в ScrollView
         tableLayout = GridLayout(cols=3, spacing=1, size_hint_y=None, row_default_height=50)
         tableLayout.bind(minimum_height=tableLayout.setter('height'))
+        writeHorLine(tableLayout, 0)
 
         for i in range(len(self.rasp_list)):
             #Номер
@@ -90,7 +92,9 @@ class FlightScreen(BaseScreen):
             #btn.bind(on_press=btnfunc)
             self.button_list.append(btn)
             tableLayout.add_widget(btn)
+            writeHorLine(tableLayout, (i+1)*100)
         self.scrlV.add_widget(tableLayout)
+
 
 
 
