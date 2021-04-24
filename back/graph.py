@@ -14,10 +14,12 @@ def euclidean_distance(x0, y0, x1, y1):
 
 
 lv = links.values
-vv = vertex.values
+vv = vertex.values  # Координаты вершин. Порядок точек в файле представляет нумерацию вершин.
+# (на нулевой позиции: vv[0] кординаты первой вершины и так далее)
 
 weights = np.zeros((vertex.size, vertex.size))
 for i in lv:
     weights[i[0], i[1]] = euclidean_distance(vv[i[0]][0], vv[i[0]][1], vv[i[1]][0], vv[i[1]][1])
+    # weights - треугольная матрица весов, все значения весов лежат в верхнем треугольнике (weights[i, j], i < j)
 
 # print(weights[:5, :5])
