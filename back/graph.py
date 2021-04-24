@@ -16,8 +16,8 @@ def euclidean_distance(x0, y0, x1, y1):
 lv = links.values
 vv = vertex.values
 
-weights = np.array([])
+weights = np.zeros((vertex.size, vertex.size))
 for i in lv:
-    weights = np.append(weights, euclidean_distance(vv[i[0]][0], vv[i[0]][1], vv[i[1]][0], vv[i[1]][1]))
+    weights[i[0], i[1]] = euclidean_distance(vv[i[0]][0], vv[i[0]][1], vv[i[1]][0], vv[i[1]][1])
 
-print(weights[:6])
+print(weights[:5, :5])
