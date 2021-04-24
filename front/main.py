@@ -4,6 +4,8 @@ from kivy.uix.button import Button
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.textinput import TextInput
 from kivy.uix.scrollview import ScrollView
+from kivy.uix.dropdown import DropDown
+from kivy.uix.actionbar import ActionDropDown
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen, WipeTransition
 from kivy.core.window import Window
@@ -12,6 +14,9 @@ from functions import *
 from functools import partial
 
 Builder.load_file("base.kv")
+
+
+
 
 class AviaLabel(Label):
     def __init__(self, *args, **kwargs):
@@ -45,11 +50,19 @@ class FlightScreen(BaseScreen):
         self.head.text = 'Flight'
         self.add_widget(self.head)
 
+        # Окно поиска
+        self.search = TextInput(multiline=False,
+                                size_hint=(1, 0.1),
+                                font_size=40,
+                                pos_hint={'center_x': .5, 'center_y': .85},
+                                on_text_validate=print)
+        self.add_widget(self.search)
+
         #Элемент, осуществляющий прокрутку
         self.scrlV = ScrollView(do_scroll_x=False,
                                 do_scroll_y=True,
-                                size_hint=(1, .8),
-                                pos_hint={'center_x': .5, 'center_y': .5})
+                                size_hint=(1, .7),
+                                pos_hint={'center_x': .5, 'center_y': .45})
         self.add_widget(self.scrlV)
 
         # Рисуем отделяющую линию
@@ -95,43 +108,115 @@ class FlightScreen(BaseScreen):
             writeHorLine(tableLayout, (i+1)*100)
         self.scrlV.add_widget(tableLayout)
 
-
-
-
 class MapScreen(BaseScreen):
     def __init__(self, *args, **kwargs):
         super(MapScreen, self).__init__(*args, **kwargs)
 
         # Заголовок
-        self.txt1 = Label(size_hint=(.5, None),
-                          height=40,
-                          font_size=25,
-                          pos_hint={'center_x': .35, 'center_y': .90})
-        self.txt1.text = 'Map'
-        self.add_widget(self.txt1)
+        self.head = AviaLabel(size_hint=(.3, .1),
+                              font_size=25,
+                              pos_hint={'center_x': 0.15, 'center_y': .95})
+        self.head.text = 'Карта'
+        self.add_widget(self.head)
+
+        # Окно поиска
+        self.dropdown = DropDown()
+
+        self.search = TextInput(multiline=False,
+                                size_hint=(1, 0.1),
+                                font_size=40,
+                                pos_hint={'center_x': .5, 'center_y': .85},
+                                #on_text_validate=self.dropdown.open
+                                )
+        self.search.bind(text = self.update_dropdown)
+        #Действие в момент выбора
+        #self.dropdown.bind(on_select=lambda instance, x: setattr(self.search, 'text', x))
+        self.add_widget(self.search)
+
+        #Тестовая кнопочка для перехода между страницами
+        btn = Button(pos=(100,100), size_hint=(None, None), size=(100,100), text='1')
+        btn.bind(on_press=self.change)
+        self.add_widget(btn)
+
+    def change(self, event):
+        global mapp
+        mapp.sm.current = 'flight'
+
+    def update_dropdown(self, struct, mes):
+        self.dropdown.dismiss()
+        self.dropdown=DropDown()
+        self.dropdown.max_height = Window.size[1]*0.7
+
+        #Здесь будет возвращаться список
+        #Кнопки будут создавать маршрут уже до цели
+        for index in range(40):
+            btn = Button(text=f'{mes} %d' % index, size_hint_y=None, height=44)
+            btn.bind(on_release=lambda btn: self.dropdown.select(btn.text))
+            self.dropdown.add_widget(btn)
+
+        self.dropdown.open(struct)
+
+
 
 class AddScreen(BaseScreen):
     def __init__(self, *args, **kwargs):
         super(AddScreen, self).__init__(*args, **kwargs)
 
         # Заголовок
-        self.txt1 = Label(size_hint=(.5, None),
-                          height=40,
-                          font_size=25,
-                          pos_hint={'center_x': .35, 'center_y': .90})
-        self.txt1.text = 'Add'
-        self.add_widget(self.txt1)
+        self.head = AviaLabel(size_hint=(.3, .1),
+                              font_size=25,
+                              pos_hint={'center_x': 0.15, 'center_y': .95})
+        self.head.text = 'Add'
+        self.add_widget(self.head)
+
+        #Окно поиска
+        self.search = TextInput(multiline=False,
+                                size_hint=(1, 0.1),
+                                font_size=40,
+                                pos_hint={'center_x': .5, 'center_y': .85},
+                                on_text_validate=print)
+        self.add_widget(self.search)
+        #Набор имён2
+        #Необходима утилита поиска по строке
+        #Находятся все имена, содержащие строку
+        name_list=["Аптека", "Магазин", "Туалет"]
+
+
+        #Основной слой с сеткой
+        tableLayout = GridLayout(cols=3, spacing=10,
+
+                                 size_hint=(1, .7), pos_hint={'center_x': 0.5, 'center_y': .45})
+
+        #Возвращаем ширину экрана
+        width = Window.size[0]
+        #Кнопки с типами
+        tableLayout.add_widget(Button(size_hint=(None, None), size=(width*0.3, width*0.3), text="Т"))
+        tableLayout.add_widget(Button(size_hint=(None, None), size=(width*0.3, width*0.3), text="А"))
+        tableLayout.add_widget(Button(size_hint=(None, None), size=(width*0.3, width*0.3), text="М"))
+        tableLayout.add_widget(Button(size_hint=(None, None), size=(width*0.3, width*0.3), text="Е"))
+        self.add_widget(tableLayout)
 
 class MainApp(App):
 
     def build(self):
-        # Create the screen manager
         Window.clearcolor = (1, 1, 1, 1)
-        sm = ScreenManager()
-        sm.add_widget(FlightScreen(name='flight'))
-        sm.add_widget(MapScreen(name='map'))
-        sm.add_widget(AddScreen(name='add'))
-        return sm
+        Window.size = (720 / 2.2, 1520 / 2.2)
+        #Window.fullscreen = True
+
+        # Create the screen manager
+        self.sm = ScreenManager()
+        self.sm.add_widget(MapScreen(name='map'))
+        self.sm.add_widget(FlightScreen(name='flight'))
+
+        self.sm.add_widget(AddScreen(name='add'))
+
+        return self.sm
+
+    def switch_screen_to(self):
+        self.sm.current='flight'
+
 
 if __name__ == '__main__':
-    MainApp().run()
+    global mapp
+    mapp = MainApp()
+    mapp.run()
