@@ -7,8 +7,8 @@ def euclidean_distance(x0, y0, x1, y1):
     return ((x1-x0)**2 + (y1-y0)**2)**0.5
 
 
-vertex = pd.read_csv('graph_vertexes/b_1f_edges_coords_px.csv', header=None)
-vertex.columns = ['x', 'y']
+vertex = pd.read_csv('graph_vertexes/b_1f_vertexes_coords_px.csv', header=None)
+vertex.columns = ['x', 'y', 'z']
 links = pd.read_csv('graph_edges/b_1f_links.csv', header=None)
 links.columns = ['i', 'j']
 

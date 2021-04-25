@@ -29,14 +29,14 @@ def plot_airport(airport_floor_image, graph_vertexes, graph_links, path=None, gr
 
 
 # Пример
-airport_floor_image = r'images\airport_b1.jpg'
-graph_vertexes = graph.vv_1f
-graph_links = graph.lv_1f
-start, end = 0, 100
+airport_floor_image = r'images\airport_b2.jpg'
+graph_vertexes = graph.vv_2f
+graph_links = graph.lv_2f
+start, end = 0, 29
 path = graph_with_path.path(start, end, graph_with_path.graph_connected)
 # Отрисовка только этажа:
 # plot_airport(airport_floor_image, graph_vertexes, graph_links)
 # Отрисовка этажа и пути:
 # plot_airport(airport_floor_image, graph_vertexes, graph_links, path=path)
 # Отрисовка этажа, пути и самого графа:
-# plot_airport(airport_floor_image, graph_vertexes, graph_links, path=path, graph=True)
+plot_airport(airport_floor_image, graph_vertexes, graph_links, path=path, graph=True)
