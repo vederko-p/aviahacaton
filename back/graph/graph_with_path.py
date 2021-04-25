@@ -3,16 +3,13 @@ import pandas as pd
 import numpy as np
 
 
-
-
-
 def euclidean_distance(x0, y0, x1, y1):
     return ((x1-x0)**2 + (y1-y0)**2)**0.5
 
 
-vertex = pd.read_csv('b_1f_edges_coords_px.csv', header=None)
+vertex = pd.read_csv('graph_vertexes/b_1f_edges_coords_px.csv', header=None)
 vertex.columns = ['x', 'y']
-links = pd.read_csv('b_1f_links.csv', header=None)
+links = pd.read_csv('graph_edges/b_1f_links.csv', header=None)
 links.columns = ['i', 'j']
 
 lv = links.values
@@ -41,8 +38,9 @@ for v in lv:
     else:
         graph_connected[v1]=[v0]
 
+
 # номер стартовой вершины, номер конечной вершины, граф в виде списка списков смежных вершин
-def path(start,end,graph):
+def path(start, end, graph):
     # a*
     temp_path = astar.a(vertexes[start],vertexes[end],graph)
     # итоговый путь
