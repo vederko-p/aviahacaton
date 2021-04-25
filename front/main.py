@@ -54,12 +54,12 @@ class FlightScreen(BaseScreen):
         self.add_widget(self.head)
 
         # Окно поиска
-        self.search = TextInput(multiline=False,
-                                size_hint=(1, 0.1),
-                                font_size=40,
-                                pos_hint={'center_x': .5, 'center_y': .85},
-                                on_text_validate=print)
-        self.add_widget(self.search)
+        # self.search = TextInput(multiline=False,
+                                # size_hint=(1, 0.1),
+                                # font_size=40,
+                                # pos_hint={'center_x': .5, 'center_y': .85},
+                                # on_text_validate=print)
+        # self.add_widget(self.search)
 
         #Элемент, осуществляющий прокрутку
         self.scrlV = ScrollView(do_scroll_x=False,
@@ -192,16 +192,16 @@ class AddScreen(BaseScreen):
         self.add_widget(self.head)
 
         #Окно поиска
-        self.search = TextInput(multiline=False,
-                                size_hint=(1, 0.1),
-                                font_size=40,
-                                pos_hint={'center_x': .5, 'center_y': .85},
-                                on_text_validate=print)
-        self.add_widget(self.search)
+        #self.search = TextInput(multiline=False,
+                                #size_hint=(1, 0.1),
+                                #font_size=40,
+                                #pos_hint={'center_x': .5, 'center_y': .85},
+                                #on_text_validate=print)
+        #self.add_widget(self.search)
         #Набор имён2
         #Необходима утилита поиска по строке
         #Находятся все имена, содержащие строку
-        name_list=["Аптека", "Магазин", "Туалет"]
+        #name_list=["Аптека", "Магазин", "Туалет"]
 
 
         #Основной слой с сеткой

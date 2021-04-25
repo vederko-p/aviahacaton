@@ -48,4 +48,4 @@ path = graph_with_path.path(start, end, graph_with_path.graph_connected)
 # Сохранение картинки:
 # plot_airport(airport_floor_image, graph_vertexes, graph_links, path=path, save=True)
 # Сохранение картинки без вывода на экран:
-plot_airport(airport_floor_image, graph_vertexes, graph_links, path=path, save=True, show=False)
+plot_airport(airport_floor_image, graph_vertexes, graph_links, save=False, show=True, path=path)
